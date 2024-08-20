@@ -6,6 +6,7 @@ app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
 let movies = [
+  { id: "34", title: "delete", genre: "Sci-Fi", rating: 10 },
   { id: uuid(), title: "Matrix", genre: "Sci-Fi", rating: 8.7 },
   { id: uuid(), title: "Titanic", genre: "Romance", rating: 7.8 },
   { id: uuid(), title: "Joker", genre: "Drama", rating: 8.5 },
@@ -39,7 +40,7 @@ app.get("/movies", (req, res) => {
   res.status(400).send({ message: "Nesprávne triedenie." });
 });
 
-app.post("/movies", (req, res) => {
+app.post("/movies/:id", (req, res) => {
   const { title, genre, rating } = req.body;
   if (!title || !genre || !rating) {
     return res.status(400).send({ message: "Chybaju udaje o filme" });
@@ -54,6 +55,16 @@ app.post("/movies", (req, res) => {
   res.status(201).send({
     message: `Film ${title} bol uspesne vytvoreny pod zanrom ${genre} s hodnotenim ${rating}`,
   });
+});
+
+app.delete("/movies/:id", (req, res) => {
+  const { id } = req.params;
+  const movieTodelete = movies.find((movie) => movie.id === id);
+  if (!movieTodelete) {
+    return res.status(404).send({ message: "film nebol najdeny" });
+  }
+  movies = movies.filter((movie) => movie.id !== id);
+  res.send({ mesage: `Film s ${id} bol uspesne vymazany` });
 });
 
 // Genericky endpoint pre nesprávne cesty
