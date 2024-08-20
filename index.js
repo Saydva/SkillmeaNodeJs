@@ -67,6 +67,25 @@ app.delete("/movies/:id", (req, res) => {
   res.send({ mesage: `Film s ${id} bol uspesne vymazany` });
 });
 
+app.patch("/movies/:id", (req, res) => {
+  const { id } = req.params;
+  const { rating } = req.body;
+  let movieUpdated = false;
+  if (!rating) {
+    return res.status(400).send({ message: "Rating musi byt definovany" });
+  }
+  movies.forEach((movie) => {
+    if (movie.id === id) {
+      movie.rating = rating;
+      movieUpdated = true;
+    }
+  });
+  if (!movieUpdated) {
+    return res.status(404).send({ message: "film nebol najdeny" });
+  }
+  res.send({ message: "Film bol uspesne updatovany" });
+});
+
 // Genericky endpoint pre nesprávne cesty
 app.get("*", (req, res) => {
   res.status(404).send({ message: "Upsss! Táto stránka neexistuje!" });
