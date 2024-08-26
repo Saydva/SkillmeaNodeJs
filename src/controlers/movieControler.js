@@ -13,12 +13,7 @@ const getMovie = (req, res) => {
 };
 
 const sortBy = (req, res) => {
-  const sortBy = req.query.sortBy;
-  if (sortBy === "rating") {
-    const sortingBy = movieModule.sort(res, req);
-  } else {
-    res.status(400).send({ message: "Nesprávne triedenie." });
-  }
+  movieModule.sort(res, req);
 };
 
 const postMovie = (req, res) => {

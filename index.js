@@ -1,7 +1,6 @@
 const express = require("express");
 const app = express();
 const moviesRouter = require("./rutes/moviesroutes");
-const booksRouter = require("./rutes/booksrouter");
 
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
@@ -12,8 +11,6 @@ app.get("/", (req, res) => {
 });
 
 app.use("/movies", moviesRouter);
-
-app.use("/books", booksRouter);
 
 // Genericky endpoint pre nesprávne cesty
 app.get("*", (req, res) => {
