@@ -14,10 +14,8 @@ const getMovie = (id) => {
 const deleteMovie = (id) => {
   const index = movies.findIndex((movie) => movie.id === id);
   if (index !== -1) {
-    movies = movies.filter((movie) => movie.id !== id);
-    return true;
+    return (movies = movies.filter((movie) => movie.id !== id));
   }
-  return false;
 };
 
 const updateMovieRating = (id, rating) => {
